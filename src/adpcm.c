@@ -166,7 +166,6 @@ size_t Adpcm_Decode(const uint8_t* input, uint8_t* output, size_t inputSize)
 
     //Decode remaining samples
     size_t inIndex = 1;
-    size_t outSamples = 1;
     for (size_t i=inIndex; i<numSamples; ++i)
     {
         uint8_t nibble;
