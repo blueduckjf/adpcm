@@ -19,7 +19,7 @@ void Adpcm_Init(adpcmState_t* state, uint8_t firstSample);
 uint8_t Adpcm_EncodeSample(adpcmState_t* state, uint8_t sample);
 size_t Adpcm_Encode(const uint8_t* input, uint8_t* output, size_t numSamples);
 uint8_t Adpcm_DecodeSample(adpcmState_t* state, uint8_t nibble);
-size_t Adpcm_Decode(const uint8_t* input, uint8_t* output, size_t numSamples);
+size_t Adpcm_Decode(const uint8_t* input, uint8_t* output, size_t inputSize);
 
 #ifdef __cplusplus
 }

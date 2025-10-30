@@ -49,7 +49,7 @@ uint8_t Adpcm_EncodeSample(adpcmState_t* state, uint8_t sample)
     uint8_t nibble = 0;
 
     //Store sign bit
-    if (diff > 0)
+    if (diff < 0)
     {
         nibble = (1 << 3);
         diff = -diff;
@@ -151,9 +151,12 @@ uint8_t Adpcm_DecodeSample(adpcmState_t* state, uint8_t nibble)
     return (uint8_t)state->predictor;
 }
 
-size_t Adpcm_Decode(const uint8_t* input, uint8_t* output, size_t numSamples)
+size_t Adpcm_Decode(const uint8_t* input, uint8_t* output, size_t inputSize)
 {
-    if ((input == NULL) || (output == NULL) || (numSamples == 0)) return 0;
+    if ((input == NULL) || (output == NULL) || (inputSize == 0)) return 0;
+
+    //Calculate number of output samples from input size
+    size_t numSamples = 1 + (inputSize - 1) * 2;
 
     adpcmState_t state;
     Adpcm_Init(&state, input[0]);
@@ -163,11 +166,12 @@ size_t Adpcm_Decode(const uint8_t* input, uint8_t* output, size_t numSamples)
 
     //Decode remaining samples
     size_t inIndex = 1;
+    size_t outSamples = 1;
     for (size_t i=inIndex; i<numSamples; ++i)
     {
         uint8_t nibble;
 
-        if (i && 0x01)
+        if (i & 0x01)
         {
             nibble = input[inIndex] & 0x0F;
         }
@@ -179,4 +183,6 @@ size_t Adpcm_Decode(const uint8_t* input, uint8_t* output, size_t numSamples)
 
         output[i] = Adpcm_DecodeSample(&state, nibble);
     }
+
+    return numSamples;
 }
