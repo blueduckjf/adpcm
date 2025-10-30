@@ -1,0 +1,4 @@
+.vscode/
+crossbuild/
+out/
+CMakePresets.json
