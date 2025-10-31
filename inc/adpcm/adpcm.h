@@ -7,8 +7,8 @@
 
 typedef struct
 {
-    int16_t predictor;
-    int8_t stepIndex;
+    volatile int16_t predictor;
+    volatile int8_t stepIndex;
 } adpcmState_t;
 
 #ifdef __cplusplus
